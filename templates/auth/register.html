@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+    <div class="px-5 py-5 p-lg-0 bg-surface-secondary">
+        <div class="d-flex justify-content-center">
+            <div class="col-12 col-md-9 col-lg-7 offset-lg-5 border-left-lg min-h-lg-screen d-flex flex-column justify-content-center py-lg-16 px-lg-20 position-relative">
+                <div class="row">
+                    <div class="col-lg-10 col-md-9 col-xl-6 mx-auto ms-xl-0">
+                        <div class="mt-10 mt-lg-5 mb-6 d-flex align-items-center d-lg-block">
+                            <span class="d-inline-block d-lg-block h1 mb-lg-6 me-3">👋</span>
+                            <h1 class="ls-tight font-bolder h2">
+                                Register here to get started
+                            </h1>
+                        </div>
+                        <div class="text-center">
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <ul class=flashes>
+                                        {% for message in messages %}
+                                            <p class="alert">{{ message }}</p>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        <form action="{{ url_for('auth.register') }}" method="POST">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-5">
+                                        <label class="form-label" for="nom">Nom</label>
+                                        <input type="text" name="nom" class="form-control form-control-muted" id="nom">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-5">
+                                        <label class="form-label" for="email">Prenom</label>
+                                        <input type="text" name="prenom" class="form-control form-control-muted"
+                                               id="email">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-5">
+                                        <label class="form-label" for="email">Email address</label>
+                                        <input type="email" name="email" class="form-control form-control-muted"
+                                               id="email">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-5">
+                                        <label class="form-label" for="email">Username</label>
+                                        <input type="text" name="username" class="form-control form-control-muted"
+                                               id="email">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-5">
+                                        <label class="form-label" for="password">Password</label>
+                                        <input type="password" name="password" class="form-control form-control-muted" id="password"
+                                               autocomplete="current-password">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-5">
+                                        <label class="form-label" for="password">Confirm</label>
+                                        <input type="password" name="confirm_password" class="form-control form-control-muted"
+                                               id="password"
+                                               autocomplete="current-password">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-full py-2">
+                                    Register
+                                </button>
+
+                            </div>
+
+                        </form>
+                        <div class="py-5 text-center">
+                            <span class="text-xs text-uppercase font-semibold">or</span>
+                        </div>
+
+                        <div class="my-6">
+                            <small>Don't have an account?</small>
+                            <a href="{{ url_for('auth.login') }}" class="text-warning text-sm font-semibold">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

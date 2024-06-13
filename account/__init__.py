@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, url_for, flash, render_template
+from flask import Blueprint, request, redirect, url_for, flash, render_template
 from flask_login import login_user, logout_user, login_required
 
 from account.models.User import User
@@ -10,10 +10,14 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        if request.form['password'] != request.form['confirm_password']:
+            flash('Les mots de passe ne correspondent pas.', 'error')
+            return redirect(url_for('auth.register'))
         try:
-            new_user = User(nom=request.form['nom'], prenom=request.form['prenom'], username=request.form['username'])
+            new_user = User(nom=request.form['nom'], prenom=request.form['prenom'], username=request.form['username'],
+                            email=request.form['email'])
+
             new_user.set_password(request.form['password'])
-            new_user.is_valid_email(request.form['email'])
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('auth.login'))
@@ -23,7 +27,7 @@ def register():
     return render_template('auth/register.html')
 
 
-@auth_bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         try:
@@ -33,6 +37,7 @@ def login():
             if user and user.verify_password(password):
                 login_user(user)
                 flash('Authentification réussie.', 'success')
+                return redirect(url_for('data.all'))
             else:
                 flash('Authentification échoué.', 'error')
         except Exception as e:

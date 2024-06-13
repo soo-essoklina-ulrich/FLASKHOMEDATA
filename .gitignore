@@ -3,3 +3,13 @@
 
 # Compiled source
 *__pycache__
+
+#Migration files
+*.pyc
+migrations/
+
+#env files
+.env
+
+#npm files
+node_modules/

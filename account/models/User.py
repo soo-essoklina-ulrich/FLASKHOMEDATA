@@ -1,5 +1,6 @@
 import re
 
+import bcrypt
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from extensions import db
@@ -15,6 +16,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
+    def __init__(self, nom, prenom, email, username):
+        self.nom = nom
+        self.prenom = prenom
+        self.email = email
+        self.username = username
+
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
@@ -29,3 +36,7 @@ class User(db.Model, UserMixin):
         if re.match(email_regex, email):
             return self.email == email
         return False
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8'))
