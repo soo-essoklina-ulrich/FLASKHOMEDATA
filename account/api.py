@@ -6,7 +6,7 @@ from extensions import db
 api_auth_bp = Blueprint('api_auth', __name__)
 
 
-@api_auth_bp.route('/register', methods=['POST'])
+@api_auth_bp.route('register', methods=['POST'])
 def register():
     if request.method == 'POST':
         try:
@@ -25,7 +25,7 @@ def register():
     return {'message': 'Inscription échouée3'}, 400
 
 
-@api_auth_bp.route('/login', methods=['POST'])
+@api_auth_bp.route('login', methods=['POST'])
 def login():
     if request.method == 'POST':
         data = request.json

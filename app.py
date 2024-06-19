@@ -6,6 +6,7 @@ from flask_jwt_extended import JWTManager
 
 from account import auth_bp
 from StoreData.views.web_route import data
+from StoreData.views.api_route import data_api
 from account.api import api_auth_bp
 from account.models.User import User
 from extensions import db
@@ -32,6 +33,7 @@ app.config['JWT_SECRET_KEY'] = secret_key
 app.register_blueprint(auth_bp, url_prefix='/')
 app.register_blueprint(api_auth_bp, url_prefix='/api/')
 app.register_blueprint(data, url_prefix='/data')
+app.register_blueprint(data_api, url_prefix='/api/file')
 
 db.init_app(app)
 migrate = Migrate(app, db)

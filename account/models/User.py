@@ -28,15 +28,5 @@ class User(db.Model, UserMixin):
     def verify_password(self, password):
         return check_password_hash(self.password, password)
 
-    def is_valid_email(self, email):
-        # Définir le motif regex pour une adresse e-mail valide
-        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
 
-        # Utiliser re.match pour vérifier si l'e-mail correspond au motif
-        if re.match(email_regex, email):
-            return self.email == email
-        return False
 
-    def authenticate(self, password):
-        return bcrypt.check_password_hash(
-            self._password_hash, password.encode('utf-8'))

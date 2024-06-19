@@ -1,34 +1,22 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify
 
-data = Blueprint('data', __name__)
+data_api = Blueprint('data_api', __name__)
 
 from StoreData.controller.FileController import FileController
 
 image = FileController()
 
 
-@data.route('/save')
+@data_api.route('/save', methods=['POST'])
 def save():
-    if request.method == 'POST':
-        try:
-            image.saveFile(request.files['file'])
-            return jsonify({'message': 'Fichier enregistrée avec succès'}), 201
-        except Exception as e:
-            return jsonify({'message': e}), 500
-    return jsonify({'message': 'Fichier enregistrée avec succès'}), 201
+    return image.saveFile()
 
 
-@data.route('/all')
-def all():
-    try:
-        return image.getFile()
-    except Exception as e:
-        return jsonify({'message': e}), 500
+@data_api.route('/all')
+def allimageimage():
+    return image.getFile()
 
 
-@data.route('/delete/<int:id>')
+@data_api.route('/delete/<int:id>')
 def delete(id):
-    try:
-        return image.deleteFile(id)
-    except Exception as e:
-        return jsonify({'message': e}), 500
+    return image.deleteFile(id)

@@ -10,7 +10,7 @@ image = FileController()
 def save():
     if request.method == 'POST':
         try:
-            image.saveFile(request.files['files'])
+            image.saveFile()
             flash('Fichier enregistrée avec succès', 'success')
             return redirect('data.all', 200)
         except Exception as e:

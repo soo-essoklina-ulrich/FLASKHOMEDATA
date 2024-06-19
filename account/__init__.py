@@ -7,7 +7,7 @@ from extensions import db
 auth_bp = Blueprint('auth', __name__)
 
 
-@auth_bp.route('/register', methods=['GET', 'POST'])
+@auth_bp.route('register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         if request.form['password'] != request.form['confirm_password']:
@@ -27,7 +27,7 @@ def register():
     return render_template('auth/register.html')
 
 
-@auth_bp.route('/', methods=['GET', 'POST'])
+@auth_bp.route('', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         try:
@@ -45,7 +45,7 @@ def login():
     return render_template('auth/login.html')
 
 
-@auth_bp.route('/logout', methods=['POST', 'GET'])
+@auth_bp.route('logout', methods=['POST', 'GET'])
 @login_required
 def logout():
     logout_user()

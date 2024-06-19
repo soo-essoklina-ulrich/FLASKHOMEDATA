@@ -16,13 +16,17 @@ class File(db.Model):
     filepath = db.Column(db.String(512), nullable=False)
     mimetype = db.Column(db.String(128), nullable=False)
     upload_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     user = db.relationship('User', backref=db.backref('file', lazy=True))
 
     def __init__(self, filename, filepath, mimetype):
         self.filename = filename
         self.filepath = filepath
         self.mimetype = mimetype
+
+    @staticmethod
+    def get_files_by_user(user_id):
+        return File.query.filter_by(user_id=user_id).all()
 
     def set_user_id(self, user_id):
         self.user_id = user_id
