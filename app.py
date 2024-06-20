@@ -1,19 +1,17 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
+from Account.views.auth_api import auth_api
+from extensions import db
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 import os
 from dotenv import load_dotenv
 from flask_cors import CORS
-from Account import auth_api
 
 
 app = Flask(__name__)
 
-db = SQLAlchemy()
-db.init_app(app)
-migrate = Migrate(app, db)
-jwt = JWTManager(app)
+
 # Charger les variables d'environnement à partir du fichier .env
 load_dotenv()
 
@@ -29,14 +27,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = secret_key
 app.config['JWT_SECRET_KEY'] = secret_key
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+
+app.register_blueprint(auth_api, url_prefix='/auth/')
 
 
+db.init_app(app)
+migrate = Migrate(app, db)
+jwt = JWTManager(app)
 
-app.register_blueprint(auth_api, url_prefix='/auth')
-# app.register_blueprint(api_auth_bp, url_prefix='/api/')
-# app.register_blueprint(data, url_prefix='/data')
-# app.register_blueprint(data_api, url_prefix='/api/file')
-
+from Account.models import User
 
 if __name__ == '__main__':
     app.run(

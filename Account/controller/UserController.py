@@ -11,17 +11,22 @@ class UserController:
 
     def login(self, username, password):
         user = self.model.query.filter_by(username=username).first()
-        if user and user.verify_password(password):
+
+        if user is not None:
+            if user.verify_password(password):
+                access_token = create_access_token(identity=username)
+                refresh_token = create_refresh_token(identity=username)
+                return jsonify({"access_token": access_token, "refresh_token": refresh_token}), 200
+            else:
+                return jsonify({"msg": "Bad username or password"}), 401
+        else:
             return jsonify({"msg": "Bad username or password"}), 401
-        access_token = create_access_token(identity=username)
-        refresh_token = create_refresh_token(identity=username)
-        return jsonify(access_token=access_token, refresh_token=refresh_token), 200
 
     def logout(self):
         pass
 
     def register(self, nom, prenom, username, password):
-        user = self.model(nom=nom, prenom=prenom,username=username)
+        user = self.model(nom=nom, prenom=prenom, username=username)
         user.password = password
         db.session.add(user)
         db.session.commit()
@@ -36,8 +41,21 @@ class UserController:
     def get_user(self):
         current_user = get_jwt_identity()
         user = self.model.query.filter_by(username=current_user).first()
-        return jsonify(user)
+
+        return jsonify({
+            "nom": user.nom,
+            "prenom": user.prenom,
+            "username": user.username
+        }), 200
 
     def get_all_users(self):
         users = self.model.query.all()
-        return jsonify(users)
+        result = [
+            {
+                "nom": user.nom,
+                "prenom": user.prenom,
+                "username": user.username
+            } for user in users
+
+        ]
+        return jsonify(result)
