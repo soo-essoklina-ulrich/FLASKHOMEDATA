@@ -9,6 +9,7 @@ class User(db.Model):
     prenom = db.Column(db.String(80), nullable=False)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
+    files = db.relationship('Files', backref='user', lazy=True)
 
     def __init__(self, nom, prenom, username):
         self.nom = nom

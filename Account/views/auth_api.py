@@ -1,8 +1,5 @@
-from flask import Blueprint
-
-
+from flask import Blueprint, request
 from Account.controller.UserController import UserController
-from flask import request
 from flask_jwt_extended import jwt_required
 
 auth_api = Blueprint('auth_api', __name__)
