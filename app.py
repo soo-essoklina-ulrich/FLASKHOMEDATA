@@ -10,9 +10,7 @@ import os
 from dotenv import load_dotenv
 from flask_cors import CORS
 
-
 app = Flask(__name__)
-
 
 # Charger les variables d'environnement à partir du fichier .env
 load_dotenv()
@@ -34,9 +32,6 @@ app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"
 app.register_blueprint(auth_api, url_prefix='/auth/')
 app.register_blueprint(FilesApi().files(), url_prefix='/api/')
 app.register_blueprint(FileStatApi().stat(), url_prefix='/api/')
-
-
-
 
 db.init_app(app)
 migrate = Migrate(app, db)

@@ -1,6 +1,7 @@
 # Flask Project
 
-Ce projet est une application web développée avec Flask. Ce guide explique comment cloner le projet, installer les dépendances, configurer la base de données et lancer l'application.
+Ce projet est une application web développée avec Flask. Ce guide explique comment cloner le projet, installer les
+dépendances, configurer la base de données et lancer l'application.
 
 ## Prérequis
 
@@ -56,7 +57,8 @@ pip install -r requirements.txt
 
 ### 5. Configurer la base de données
 
-Créez une base de données MySQL sur votre machine locale. Ensuite, créez un fichier `.env` à la racine du projet et ajoutez les informations de connexion à la base de données :
+Créez une base de données MySQL sur votre machine locale. Ensuite, créez un fichier `.env` à la racine du projet et
+ajoutez les informations de connexion à la base de données :
 
 ```bash
 DATABASE_URL=mysql://<username>:<password>@localhost:3306/<database_name>

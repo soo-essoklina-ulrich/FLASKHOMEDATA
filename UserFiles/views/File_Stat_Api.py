@@ -2,13 +2,13 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 from UserFiles.controller.FileStatController import FileStaticController
 
+
 class FileStatApi:
     def __init__(self):
         self.file_controller = FileStaticController()
         self.file_api = Blueprint('file_stat_api', __name__)
 
     def stat(self):
-
         @self.file_api.route('files/count', methods=['GET'])
         @jwt_required()
         def count_files():

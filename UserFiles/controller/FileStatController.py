@@ -29,4 +29,3 @@ class FileStaticController:
         user_id = self.user_id.query.filter_by(username=get_jwt_identity()).first().id
         files = self.file.query.filter_by(user_id=user_id, file_type=file_type).all()
         return len(files)
-
