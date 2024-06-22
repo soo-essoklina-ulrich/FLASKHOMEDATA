@@ -15,7 +15,7 @@ app = Flask(__name__)
 # Charger les variables d'environnement à partir du fichier .env
 load_dotenv()
 
-CORS(app)
+cors = CORS()
 
 # Maintenant vous pouvez accéder aux variables d'environnement
 flask_app = os.getenv('FLASK_APP')
@@ -33,6 +33,10 @@ app.register_blueprint(auth_api, url_prefix='/auth/')
 app.register_blueprint(FilesApi().files(), url_prefix='/api/')
 app.register_blueprint(FileStatApi().stat(), url_prefix='/api/')
 
+cors.init_app(
+    app,
+    resources={r"*": {"origins": "*"}}
+)
 db.init_app(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
