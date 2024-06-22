@@ -15,7 +15,7 @@ app = Flask(__name__)
 # Charger les variables d'environnement à partir du fichier .env
 load_dotenv()
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 # Maintenant vous pouvez accéder aux variables d'environnement
 flask_app = os.getenv('FLASK_APP')
@@ -37,8 +37,8 @@ db.init_app(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
-from Account.models import User
-from UserFiles.models import Files
+from Account.models.User import User  # noqa: F401
+from UserFiles.models.Files import Files  # noqa: F401
 
 if __name__ == '__main__':
     app.run(
