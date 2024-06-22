@@ -22,6 +22,8 @@ def register():
     prenom = request.json.get('prenom', None)
     username = request.json.get('username', None)
     password = request.json.get('password', None)
+    if not nom or not prenom or not username or not password:
+        return {"msg": "Missing required fields"}, 400
     return user_controller.register(nom, prenom, username, password)
 
 

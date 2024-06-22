@@ -30,7 +30,9 @@ class UserController:
         user.password = password
         db.session.add(user)
         db.session.commit()
-        return jsonify({"msg": "User created successfully"}), 201
+        access_token = create_access_token(identity=username)
+        refresh_token = create_refresh_token(identity=username)
+        return jsonify({"msg": "User created successfully", "access_token": access_token, "refresh_token": refresh_token}), 201
 
     def change_password(self, username, password):
         pass
