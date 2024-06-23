@@ -18,15 +18,15 @@ class Files(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     file_type = db.Column(db.String(50))
 
-    def __init__(self, filename, user_id):
-        self.filename = filename
+    def __init__(self,  user_id):
         self.user_id = user_id
 
     def __repr__(self):
         return '<Files %r>' % self.filename
 
     def save_File(self, file):
-        filename = secure_filename(file.filename + str(uuid.uuid4()))
+        filename_str_uuid_uuid_ = str(uuid.uuid4()) + str(file.filename)
+        filename = secure_filename(filename_str_uuid_uuid_)
         file.save(os.path.join(upload_folder, filename))
         self.filemime = file.mimetype
         self.filename = filename

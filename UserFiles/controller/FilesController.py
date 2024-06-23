@@ -8,14 +8,14 @@ from extensions import db
 
 class FileController:
     def __init__(self):
-        self.file = Files
+        self.file_model = Files
         self.user_id = user
 
     def saveFiles(self, file):
         user_id = self.user_id.query.filter_by(username=get_jwt_identity()).first().id
-        file = self.file(filename=file, user_id=user_id)
-        file.save_File(file)
-        db.session.add(file)
+        file_models = self.file_model(user_id=user_id)
+        file_models.save_File(file)
+        db.session.add(file_models)
         db.session.commit()
         return jsonify({
             "msg": "File created successfully",
@@ -23,7 +23,7 @@ class FileController:
         }), 201
 
     def getFiles(self):
-        files = self.file.query.all()
+        files = self.file_model.query.all()
         result = [
             {
                 "filename": file.filename,
@@ -36,7 +36,7 @@ class FileController:
         return jsonify(result), 200
 
     def deleteFiles(self, filename_id):
-        file = self.file.query.filter_by(id=filename_id).first()
+        file = self.file_model.query.filter_by(id=filename_id).first()
         db.session.delete(file)
         file.delete_File()
         db.session.commit()
@@ -44,7 +44,7 @@ class FileController:
 
     def getFilesByUser(self):
         user_id = self.user_id.query.filter_by(username=get_jwt_identity()).first().id
-        files = self.file.query.filter_by(user_id=user_id).all()
+        files = self.file_model.query.filter_by(user_id=user_id).all()
         result = [
             {
                 "filename": file.filename,
