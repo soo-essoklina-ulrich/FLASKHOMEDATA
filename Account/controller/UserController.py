@@ -55,11 +55,13 @@ class UserController:
     def get_user(self):
         current_user = get_jwt_identity()
         user = self.model.query.filter_by(username=current_user).first()
-
         return jsonify({
             "nom": user.nom,
             "prenom": user.prenom,
-            "username": user.username
+            "username": user.username,
+            "phone": user.phone,
+            "email": user.email,
+            "image": user.image if user.image else "default.jpg"
         }), 200
 
     def get_all_users(self):

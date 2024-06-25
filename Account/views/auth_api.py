@@ -44,7 +44,7 @@ def change_password():
     return user_controller.change_password(currentpassword, password, confirm)
 
 
-@auth_api.route('profile', methods=['POST'])
+@auth_api.route('profile', methods=['PUT'])
 @jwt_required()
 def profile():
     username = request.json.get('username', None)
