@@ -44,7 +44,7 @@ def change_password():
     return user_controller.change_password(currentpassword, password, confirm)
 
 
-@auth_api.route('profile', methods=['PUT'])
+@auth_api.route('profile', methods=['POST'])
 @jwt_required()
 def profile():
     username = request.json.get('username', None)
@@ -55,7 +55,16 @@ def profile():
     return user_controller.editProfile(username, nom, prenom, phone, email)
 
 
+@auth_api.route('profileimage', methods=['POST'])
+@jwt_required()
+def profileimage():
+    file = request.files['image']
+    if not file:
+        return {"msg": "No file part"}, 400
+    return user_controller.updateimageprofile(file)
+
+
 @auth_api.route('logout', methods=['GET'])
 @jwt_required()
 def logout():
-    return user_controller.logout()
+    return user_controller.logoutU()

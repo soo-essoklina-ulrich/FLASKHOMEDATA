@@ -22,7 +22,7 @@ class UserController:
         else:
             return jsonify({"msg": "Bad username or password"}), 401
 
-    def logout(self):
+    def logoutU(self):
         return jsonify({"msg": "Logged out successfully"}), 200
 
     def register(self, nom, prenom, username, password):
@@ -94,5 +94,14 @@ class UserController:
                 "refresh_token": refresh_token,
                 "nom": user.nom,
                 "prenom": user.prenom,
-                "username": user.username
+                "username": user.username,
+                "phone": user.phone,
+                "email": user.email,
             }), 200
+
+    def updateimageprofile(self, file):
+        current_user = get_jwt_identity()
+        user = self.model.query.filter_by(username=current_user).first()
+        user.saveimageProfile(file)
+        db.session.commit()
+        return jsonify({"msg": "Profile image updated successfully", "image": user.image}), 200
