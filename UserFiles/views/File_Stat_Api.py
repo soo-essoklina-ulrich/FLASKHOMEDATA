@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint
 from flask_jwt_extended import jwt_required
 from UserFiles.controller.FileStatController import FileStaticController
 
@@ -28,5 +28,15 @@ class FileStatApi:
         @jwt_required()
         def count_files_by_user_and_type(file_type):
             return self.file_controller.count_files_by_user_and_type(file_type)
+
+        @self.file_api.route('files/count/type', methods=['GET'])
+        @jwt_required()
+        def count_all_file_by_type():
+            return self.file_controller.count_all_file_by_type()
+
+        @self.file_api.route('disk_usage', methods=['GET'])
+        # @jwt_required()
+        def disk_usage():
+            return self.file_controller.diskuage()
 
         return self.file_api

@@ -17,7 +17,7 @@ class FilesApi:
                 return jsonify({"msg": "No file part"}), 400
             return self.file_controller.saveFiles(file)
 
-        @self.file_api.route('files', methods=['GET'])
+        @self.file_api.route('file', methods=['GET'])
         @jwt_required()
         def getFiles():
             return self.file_controller.getFiles()
@@ -25,9 +25,10 @@ class FilesApi:
         @self.file_api.route('file/<int:id>', methods=['DELETE'])
         @jwt_required()
         def deleteFiles(filename):
+
             return self.file_controller.deleteFiles(filename)
 
-        @self.file_api.route('files/user', methods=['GET'])
+        @self.file_api.route('file/user', methods=['GET'])
         @jwt_required()
         def getFilesByUser():
             return self.file_controller.getFilesByUser()

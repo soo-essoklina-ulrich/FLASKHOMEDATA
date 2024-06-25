@@ -37,6 +37,8 @@ class FileController:
 
     def deleteFiles(self, filename_id):
         file = self.file_model.query.filter_by(id=filename_id).first()
+        if not file:
+            return jsonify({"msg": "File not found"}), 404
         db.session.delete(file)
         file.delete_File()
         db.session.commit()
@@ -47,6 +49,7 @@ class FileController:
         files = self.file_model.query.filter_by(user_id=user_id).all()
         result = [
             {
+                "id": file.id,
                 "filename": file.filename,
                 "created_at": file.created_at,
                 "updated_at": file.updated_at,

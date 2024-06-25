@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from flask import Flask
 
 from Account.views.auth_api import auth_api
@@ -28,6 +30,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = secret_key
 app.config['JWT_SECRET_KEY'] = secret_key
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)  # Jetons d'accès expirent après 1 heure
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)  # Jetons de rafraîchissement expirent après 30 jours
+
 
 app.register_blueprint(auth_api, url_prefix='/auth/')
 app.register_blueprint(FilesApi().files(), url_prefix='/api/')

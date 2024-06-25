@@ -31,3 +31,31 @@ def register():
 @jwt_required()
 def get_user():
     return user_controller.get_user()
+
+
+@auth_api.route('change_password', methods=['POST'])
+@jwt_required()
+def change_password():
+    currentpassword = request.json.get('currentpassword', None)
+    password = request.json.get('password', None)
+    confirm = request.json.get('confirm', None)
+    if not password or not confirm:
+        return {"msg": "Missing required fields"}, 400
+    return user_controller.change_password(currentpassword, password, confirm)
+
+
+@auth_api.route('profile', methods=['POST'])
+@jwt_required()
+def profile():
+    username = request.json.get('username', None)
+    nom = request.json.get('nom', None)
+    prenom = request.json.get('prenom', None)
+    phone = request.json.get('phone', None)
+    email = request.json.get('email', None)
+    return user_controller.editProfile(username, nom, prenom, phone, email)
+
+
+@auth_api.route('logout', methods=['GET'])
+@jwt_required()
+def logout():
+    return user_controller.logout()
